@@ -1,0 +1,119 @@
+$primary: #1e0ffe;
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+
+// Custom stylesheet
+@keyframes left-to-right-gradient {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+@keyframes breathing-gradient {
+    0%, 100% {
+        background-position: 50% 50%;
+        background-size: 100% 100%;
+    }
+    50% {
+        background-position: 50% 50%;
+        background-size: 500% 500%;
+    }
+}
+
+.locale {
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.locale.form-select {
+    width: max-content;
+}
+
+.main-text {
+    background: linear-gradient(120deg, #2916f8, #da57e9, #2916f8);
+    background-clip: text;
+    color: transparent;
+    background-size: 200% 200%;
+    animation: left-to-right-gradient 10s ease-in-out infinite;
+}
+
+.form-control,
+.input-group-text {
+    border-width: 2px;
+    transition: border-color 0.25s ease-in-out;
+}
+
+.input-group:focus-within .form-control,
+.input-group:focus-within .input-group-text {
+    box-shadow: none;
+    border-color: #1e0ffe;
+}
+
+.input-group > :first-child {
+    border-right: 0px;
+}
+
+.input-group > :last-child {
+    border-left: 0px;
+}
+
+.input-group svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    opacity: 0.5;
+}
+
+.input-group-text label {
+    cursor: pointer;
+}
+
+.form-check > * {
+    cursor: pointer;
+}
+
+.forgot-password,
+.form-check label {
+    font-size: calc(0.8rem + 0.2vw);
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #1e0ffe;
+    border-radius: 30px;
+    transition: 0.25s ease-in-out;
+}
+
+.social-icons a:hover{
+    background: radial-gradient(#2916f8, #da57e9);
+    color: white;
+    background-size: 200% 200%;
+    animation: breathing-gradient 3s ease-in-out infinite;
+}
+
+.social-icons svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.footer-text {
+    font-size: calc(0.7rem + 0.2vw);
+}
+
+@media (min-width: 1200px) {
+    .forgot-password,
+    .form-check label {
+        font-size: 1rem;
+    }
+
+    .footer-text {
+        font-size: 0.9rem;
+    }
+}
