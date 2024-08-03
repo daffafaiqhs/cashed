@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\LocalizationMiddleware;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
@@ -15,6 +16,8 @@ Route::get('/language', function () {
     return redirect()->back()->withFallback(route('login'));
 })->name('language.change');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+Route::middleware(LocalizationMiddleware::class)->group(function () {
+    Route::get('/login', function () {
+        return view('login');
+    })->name('login');
+});

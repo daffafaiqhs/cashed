@@ -89,7 +89,7 @@
                                 </label>
                             </div>
                             <a href="" class="text-end ms-2 forgot-password">
-                                {{ __('Forgot your password?') }}
+                                {{ __('Forgot password?') }}
                             </a>
                         </div>
                     </div>
