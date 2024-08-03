@@ -7,18 +7,30 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login - Cashed</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 </head>
 
 <body>
     <main class="d-flex justify-content-center align-items-center">
-        <section class="d-flex justify-content-center align-items-center flex-column p-2 shadow-lg min-vh-100">
+        <section
+            class="d-flex justify-content-center align-items-center flex-column p-2 shadow-lg min-vh-100 main-content">
             <div class="ms-auto mb-0 mt-4 me-3">
-                <select class="locale form-select" aria-label="Language selector" name="locale">
-                    <option value="1" selected>EN</option>
-                    <option value="2">ID</option>
-                </select>
+                <form action="{{ route('language.change') }}" method="get">
+                    <select class="locale form-select" aria-label="Language selector" name="locale"
+                        onchange="this.form.submit()">
+                        @foreach ($available_locales as $locale_name => $locale_value)
+                            <option value="{{ $locale_value }}" @selected($locale_value === $current_locale)>
+                                {{ strtoupper($locale_value) }}</option>
+                        @endforeach
+                    </select>
+                </form>
             </div>
             <div class="w-75 mt-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" width="3.5rem" height="3.5rem" viewBox="0 0 24 24"
@@ -27,8 +39,10 @@
                         d="M12 21v-2h7V5h-7V3h7q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm-2-4l-1.375-1.45l2.55-2.55H3v-2h8.175l-2.55-2.55L10 7l5 5z" />
                 </svg>
                 <div class="mb-5">
-                    <h2>Log In to <span class="main-text">Cashed</span></h2>
-                    <p class="mb-0">Welcome back! Continue using this site by entering your credentials.</p>
+                    <h2 class="fw-bold">{{ __('Log In to') }} <span class="main-text">Cashed</span></h2>
+                    <p class="mb-0">
+                        {!! __('Welcome back! Continue using this site by entering your credentials.') !!}
+                    </p>
                 </div>
                 <form>
                     <div class="d-flex flex-column gap-2 mb-5">
@@ -60,25 +74,26 @@
                                 <input type="password" class="form-control border-start-0 border-end-0 ps-1"
                                     id="password" name="password" placeholder="Password"
                                     autocomplete="current-password">
-                                <label for="password" class="ps-1">Password</label>
+                                <label for="password" class="ps-1">{{ __('Password') }}</label>
                             </div>
                             <div class="input-group-text bg-white">
                                 <button type="button" for="password" id="btn-toggle-password-visibility"
-                                    class="bg-white border-0 p-0 text-primary fw-bold">Show</button>
+                                    class="bg-white border-0 p-0 text-primary fw-bold">{{ __('Show') }}</button>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="form-check mx-2">
                                 <input class="form-check-input" type="checkbox" value="" id="remember">
                                 <label class="form-check-label" for="remember">
-                                    Remember me
+                                    {{ __('Remember me') }}
                                 </label>
                             </div>
-                            <a href="" class="text-end ms-2 forgot-password">Forgot
-                                your password?</a>
+                            <a href="" class="text-end ms-2 forgot-password">
+                                {{ __('Forgot your password?') }}
+                            </a>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 py-2">Log In</button>
+                    <button type="submit" class="btn btn-primary w-100 py-2">{{ __('Log In') }}</button>
                 </form>
             </div>
             <footer class="mt-auto d-flex flex-column align-items-center text-center">
@@ -108,11 +123,56 @@
                         </svg>
                     </a>
                 </div>
-                <p class="footer-text">Feel free to report any bugs you may find!<br>
-                    Cashed Version 2.0 | Created with &#x1F4BB by Daffa Faiq</p>
+                <p class="footer-text">{!! __('Feel free to report any bugs you may find!') !!}<br>
+                    Cashed {{ __('Version') }} 2.0 | {!! __('Created with &#x1F4BB by Daffa Faiq') !!}</p>
             </footer>
         </section>
     </main>
+
+    <script>
+        const passwordInput = document.getElementById("password");
+        const toggleButton = document.getElementById("btn-toggle-password-visibility");
+
+        function showPasswordField() {
+            passwordInput.type = "text";
+            toggleButton.innerHTML = "{{ __('Hide') }}";
+        }
+
+        function hidePasswordField() {
+            passwordInput.type = "password";
+            toggleButton.innerHTML = "{{ __('Show') }}";
+        }
+
+        toggleButton.addEventListener("click", togglePasswordVisibility);
+
+        function togglePasswordVisibility() {
+            if (passwordInput.type === "password") {
+                showPasswordField();
+            } else {
+                hidePasswordField();
+            }
+        }
+
+        function updateToggleButton() {
+            const isEmpty = !(passwordInput.value) && passwordInput != document.activeElement
+            if (isEmpty) {
+                hidePasswordField();
+            }
+
+            if (passwordInput.value || passwordInput === document.activeElement) {
+                toggleButton.style.display = "inline";
+            } else {
+                toggleButton.style.display = "none";
+            }
+        }
+
+        passwordInput.addEventListener("focus", updateToggleButton);
+        passwordInput.addEventListener("blur", updateToggleButton);
+        passwordInput.addEventListener("input", updateToggleButton);
+
+        // Initial call to hide the button if the password field is empty
+        updateToggleButton();
+    </script>
 </body>
 
 </html>
